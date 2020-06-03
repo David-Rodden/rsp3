@@ -1,15 +1,16 @@
 package org.rspeer.game.provider.callback;
 
+import jag.game.RSClient;
+import jag.graphics.RSGraphicsProvider;
+import jag.script.RSScriptEvent;
 import org.rspeer.commons.Time;
 import org.rspeer.game.Definitions;
 import org.rspeer.game.Game;
 import org.rspeer.game.action.Action;
 import org.rspeer.game.action.ActionOpcode;
 import org.rspeer.game.event.ChatMessageEvent;
+import org.rspeer.game.event.HitsplatEvent;
 import org.rspeer.game.event.RenderEvent;
-import jag.game.RSClient;
-import jag.graphics.RSGraphicsProvider;
-import jag.script.RSScriptEvent;
 
 import java.awt.*;
 
@@ -75,6 +76,14 @@ public class EventMediator {
         try {
             ChatMessageEvent event = new ChatMessageEvent(type, source, contents, channel);
             Game.getEventDispatcher().dispatch(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void notifyHitsplatReceived(final int type, final int source, final String playerId) {
+        try {
+            Game.getEventDispatcher().dispatch(new HitsplatEvent(type, source, playerId));
         } catch (Exception e) {
             e.printStackTrace();
         }
